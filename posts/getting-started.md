@@ -7,3 +7,7 @@ isFeatured: true
 ---
 
 # This is a title
+
+## File-based Routing
+
+<!-- ![Create routes via your file + folder structure] (nextjs-file-based-routing-png) -->
