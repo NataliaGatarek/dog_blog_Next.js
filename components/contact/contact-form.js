@@ -1,28 +1,79 @@
 import classes from "./contact-form.module.css";
 import { useState } from "react";
+import Notification from "../ui/notification";
+
+
+async function sendContactData(contactDetails) {
+    const response = await fetch("/api/contact", {
+            method: "POST",
+            body: JSON.stringify(contactDetails),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || "Something went wrong");
+         }
+}
 
 function ContactForm() {
     const [enteredEmail, setEnteredEmail] = useState("");
     const [enteredName, setEnteredName] = useState("");
     const [enteredText, setEnteredText] = useState("");
 
-    function sendMessageHandler(event) {
+    const [reqStatus, setReqStatus] = useState(); //pending, success, error//
+    const [reqError, setReqError] = useState();
+
+    async function sendMessageHandler(event) {
         event.preventDefault();
 
-        fetch("/api/contact", {
-            method: "POST",
-            body: JSON.stringify({
+        setReqStatus("pending");
+
+        try {
+            await sendContactData({
                 email: enteredEmail,
                 name: enteredName,
                 message: enteredText
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
+            });
+
+            setReqStatus("success");   
+            
+        } catch {
+            // setReqError(error.message);
+            setReqError("Some error");
+            setReqStatus("error");
+        } 
     }
     
-    //mongodb//
+
+    let notification;
+
+    if (reqStatus === "pending") {
+        notification = {
+            status: "pending",
+            title: "Sending message...",
+            message: "Your message is on it's way!"
+        }
+    }
+
+    if (reqStatus === "success") {
+        notification = {
+            status: "success",
+            title: "Success!",
+            message: "Your message was sent..."
+        }
+    }
+
+    if (reqStatus === "error") {
+        notification = {
+            status: "error",
+            title: "Error!",
+            message: reqError
+        }
+    }
+
 
     return (
         <section className={classes.contact}>
@@ -47,6 +98,7 @@ function ContactForm() {
                     <button>Send message</button>
                 </div>
             </form>
+          {notification && <Notification status= {notification.status} title={notification.title} message={notification.message} />}
         </section>
     )
 }

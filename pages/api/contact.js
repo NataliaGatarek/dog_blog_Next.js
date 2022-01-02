@@ -26,7 +26,7 @@ async function handler(req, res) {
 
         try {
              client = await MongoClient.connect(
-            "mongodb+srv://natalia:nataliag@cluster0.hgjz1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+           
         );
         
         } catch (error) {
