@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
+    "mongodb": "^4.2.2",
     "next": "12.0.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -19,8 +20,8 @@
     "eslint-config-next": "12.0.7"
   },
   "browser": {
-   "fs": false,
-   "path": false,
-   "os": false
-}
+    "fs": false,
+    "path": false,
+    "os": false
+  }
 }
