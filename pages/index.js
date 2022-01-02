@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Hero from "../components/home-page/hero";
 import FeaturedPosts from "../components/home-page/featured-posts";
 import { getFeaturedPosts } from "../lib/posts-util";
@@ -6,6 +7,10 @@ import { getFeaturedPosts } from "../lib/posts-util";
 function HomePage(props) {
     return (
         <>
+            <Head>
+                <title>Dog blog</title>
+                <meta name="description" content="Dog blog"/>
+            </Head>
             <Hero />
             <FeaturedPosts posts={props.posts}/> 
         </>

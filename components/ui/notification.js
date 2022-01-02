@@ -21,7 +21,16 @@ function Notification(props) {
       <h2>{title}</h2>
       <p>{message}</p>
     </div>
-  );
+  )
+
+// return ReactDOM.createPortal((
+//     <div className={cssClasses}>
+//       <h2>{title}</h2>
+//       <p>{message}</p>
+//     </div>
+//   ), document.getElementById("nt"));
+
+
 }
 
 export default Notification;

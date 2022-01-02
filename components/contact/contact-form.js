@@ -1,5 +1,5 @@
 import classes from "./contact-form.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Notification from "../ui/notification";
 
 
@@ -26,11 +26,23 @@ function ContactForm() {
     const [reqStatus, setReqStatus] = useState(); //pending, success, error//
     const [reqError, setReqError] = useState();
 
+    useEffect(() => {
+        if (reqStatus === "success" || reqStatus === "error" ) {
+            const timer = setTimeout(() => {
+                setReqStatus(null);
+                setReqError(null);
+            }, 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [reqStatus]);
+
     async function sendMessageHandler(event) {
         event.preventDefault();
 
         setReqStatus("pending");
-
+        setEnteredEmail("");
+        setEnteredText("");
+        setEnteredName("");
         try {
             await sendContactData({
                 email: enteredEmail,
@@ -41,8 +53,7 @@ function ContactForm() {
             setReqStatus("success");   
             
         } catch {
-            // setReqError(error.message);
-            setReqError("Some error");
+            setReqError(error.message);
             setReqStatus("error");
         } 
     }
